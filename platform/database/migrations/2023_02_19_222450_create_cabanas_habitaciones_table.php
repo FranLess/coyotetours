@@ -1,0 +1,43 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('cabanas_habitaciones', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('cabana_id');
+            $table->string('nombre');
+            $table->string('slug');
+            $table->json('especificaciones');
+            $table->integer('minimo_noches');
+
+            $table->foreign('cabana_id')
+                ->references('id')
+                ->on('cabanas')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('cabanas_habitaciones');
+    }
+};
